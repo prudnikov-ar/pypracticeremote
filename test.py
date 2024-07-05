@@ -14,7 +14,7 @@ class ImageProcessingApp(QMainWindow):
         self.original_image = None
 
     def initUI(self):
-        self.setWindowTitle('Image Processing App 1000x600')
+        self.setWindowTitle('Приложение 1000x600')
         self.resize(1000, 600)
 
         self.imageLabel = QLabel(self)
@@ -24,22 +24,22 @@ class ImageProcessingApp(QMainWindow):
         self.scrollArea.setWidget(self.imageLabel)
         self.scrollArea.setWidgetResizable(True)
 
-        loadButton = QPushButton('Load Image', self)
+        loadButton = QPushButton('Загрузить фото', self)
         loadButton.clicked.connect(self.loadImage)
         
-        webcamButton = QPushButton('Capture from Webcam', self)
+        webcamButton = QPushButton('Снять фото', self)
         webcamButton.clicked.connect(self.captureFromWebcam)
         
-        channelButton = QPushButton('Show Color Channel', self)
+        channelButton = QPushButton('Канал изображения', self)
         channelButton.clicked.connect(self.showColorChannel)
         
-        resizeButton = QPushButton('Resize Image', self)
+        resizeButton = QPushButton('Изменить размер', self)
         resizeButton.clicked.connect(self.resizeImage)
         
-        borderButton = QPushButton('Add Border', self)
+        borderButton = QPushButton('Добавить границы', self)
         borderButton.clicked.connect(self.addBorder)
         
-        rectangleButton = QPushButton('Draw Recretangle', self)
+        rectangleButton = QPushButton('Нарисовать прямоугольник', self)
         rectangleButton.clicked.connect(self.drawRectangle)
         
         resetButton = QPushButton('<-', self)
@@ -70,32 +70,32 @@ class ImageProcessingApp(QMainWindow):
 
     def loadImage(self):
         options = QFileDialog.Options()
-        fileName, _ = QFileDialog.getOpenFileName(self, "Load Image", "", "Images (*.png *.jpg)", options=options)
+        fileName, _ = QFileDialog.getOpenFileName(self, "Загрузить фото", "", "Images (*.png *.jpg)", options=options)
         if fileName:
             self.image = cv2.imread(fileName)
             self.original_image = self.image.copy()
             self.displayImage(self.image)
         else:
-            self.showErrorMessage("Failed to load image.")
+            self.showErrorMessage("Ошибка загрузки.")
     
     def captureFromWebcam(self):
         cap = cv2.VideoCapture(0)
         if not cap.isOpened():
-            self.showErrorMessage("Failed to connect to webcam.")
+            self.showErrorMessage("Не удалось подключиться к камере.")
             return
         
-        cv2.namedWindow("Press Space to Capture", cv2.WINDOW_NORMAL)
+        cv2.namedWindow("press SPACE to capture", cv2.WINDOW_NORMAL)
 
         while True:
             ret, frame = cap.read()
             if not ret:
-                self.showErrorMessage("Failed to capture image from webcam.")
+                self.showErrorMessage("Ошибка загрузки фото с камеры.")
                 break
 
-            cv2.imshow("Press Space to Capture", frame)
+            cv2.imshow("press SPACE to capture", frame)
 
             key = cv2.waitKey(1)
-            if key == 32:  # Space key
+            if key == 32:  # SPACE key
                 self.image = frame
                 self.original_image = self.image.copy()
                 self.displayImage(self.image)
@@ -104,37 +104,34 @@ class ImageProcessingApp(QMainWindow):
                 break
 
         cap.release()
-        cv2.destroyWindow("Press Space to Capture")
+        cv2.destroyWindow("press SPACE to capture")
 
     def showColorChannel(self):
         if self.image is None:
-            self.showErrorMessage("No image loaded.")
+            self.showErrorMessage("Фото не загружено.")
             return
 
-        items = ("Red", "Green", "Blue")
-        item, ok = QInputDialog.getItem(self, "Select Color Channel", "Channel:", items, 0, False)
+        items = ("Красный", "Зелёный", "Синий")
+        item, ok = QInputDialog.getItem(self, "Выберите канал", "Канал:", items, 0, False)
         
         if ok and item:
-            channel = {"Red": 2, "Green": 1, "Blue": 0}[item]
+            channel = {"Красный": 2, "Зелёный": 1, "Синий": 0}[item]
             channel_image = np.zeros_like(self.image)
             channel_image[:, :, channel] = self.image[:, :, channel]
             self.displayImage(channel_image)
 
     def fitToWindow(self):
         if self.image is None:
-            self.showErrorMessage("No image loaded.")
+            self.showErrorMessage("Фото не загружено.")
             return
 
-        # Get the size of the scroll area
         scroll_width = self.scrollArea.width()
         scroll_height = self.scrollArea.height()
 
-        # Calculate the aspect ratio of the image
         image_width = self.image.shape[1]
         image_height = self.image.shape[0]
         aspect_ratio = image_width / image_height
 
-        # Calculate new dimensions to fit within the scroll area
         new_width = scroll_width
         new_height = int(new_width / aspect_ratio)
 
@@ -149,11 +146,11 @@ class ImageProcessingApp(QMainWindow):
 
     def resizeImage(self):
         if self.image is None:
-            self.showErrorMessage("No image loaded.")
+            self.showErrorMessage("Фото не загружено.")
             return
 
-        width, ok1 = QInputDialog.getInt(self, "Resize Image", "Enter width:", value=self.image.shape[1], min=1)
-        height, ok2 = QInputDialog.getInt(self, "Resize Image", "Enter height:", value=self.image.shape[0], min=1)
+        width, ok1 = QInputDialog.getInt(self, "Изменить размер", "Ширина:", value=self.image.shape[1], min=1)
+        height, ok2 = QInputDialog.getInt(self, "Изменить размер", "Высота:", value=self.image.shape[0], min=1)
         
         if ok1 and ok2:
             resized_image = cv2.resize(self.image, (width, height))
@@ -162,10 +159,10 @@ class ImageProcessingApp(QMainWindow):
         
     def addBorder(self):
         if self.image is None:
-            self.showErrorMessage("No image loaded.")
+            self.showErrorMessage("Фото не загружено.")
             return
 
-        border_size, ok = QInputDialog.getInt(self, "Add Border", "Enter border size:", min=0)
+        border_size, ok = QInputDialog.getInt(self, "Добавить границы", "Введите толщину рамок:", min=0)
         if ok:
             bordered_image = cv2.copyMakeBorder(self.image, border_size, border_size, border_size, border_size, cv2.BORDER_CONSTANT, value=[0, 0, 0])
             self.image = bordered_image
@@ -173,13 +170,13 @@ class ImageProcessingApp(QMainWindow):
 
     def drawRectangle(self):
         if self.image is None:
-            self.showErrorMessage("No image loaded.")
+            self.showErrorMessage("Фото не загружено.")
             return
 
-        x, ok1 = QInputDialog.getInt(self, "Draw Rectangle", "Enter x coordinate:", min=0, max=self.image.shape[1])
-        y, ok2 = QInputDialog.getInt(self, "Draw Rectangle", "Enter y coordinate:", min=0, max=self.image.shape[0])
-        width, ok3 = QInputDialog.getInt(self, "Draw Rectangle", "Enter width:", min=0, max=self.image.shape[1] - x)
-        height, ok4 = QInputDialog.getInt(self, "Draw Rectangle", "Enter height:", min=0, max=self.image.shape[0] - y)
+        x, ok1 = QInputDialog.getInt(self, "Нарисовать прямоугольник", "Координаты по x:", min=0, max=self.image.shape[1])
+        y, ok2 = QInputDialog.getInt(self, "Нарисовать прямоугольник", "Координаты по y:", min=0, max=self.image.shape[0])
+        width, ok3 = QInputDialog.getInt(self, "Нарисовать прямоугольник", "Ширина:", min=0, max=self.image.shape[1] - x)
+        height, ok4 = QInputDialog.getInt(self, "Нарисовать прямоугольник", "Высота:", min=0, max=self.image.shape[0] - y)
 
         if ok1 and ok2 and ok3 and ok4:
             cv2.rectangle(self.image, (x, y), (x + width, y + height), (255, 0, 0), 2)
@@ -189,6 +186,9 @@ class ImageProcessingApp(QMainWindow):
         if self.original_image is not None:
             self.image = self.original_image.copy()
             self.displayImage(self.image)
+        else:
+            self.showErrorMessage("Фото не загружено.")
+            return
 
     def displayImage(self, img):
         qformat = QImage.Format_RGB888
@@ -203,7 +203,7 @@ class ImageProcessingApp(QMainWindow):
 
     def showErrorMessage(self, message):
         error_dialog = QDialog(self)
-        error_dialog.setWindowTitle("Error")
+        error_dialog.setWindowTitle("Ошибка")
         vbox = QVBoxLayout()
         label = QLabel(message, self)
         label.setAlignment(Qt.AlignCenter)
