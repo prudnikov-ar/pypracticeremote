@@ -1,0 +1,22 @@
+Brotli @ file:///Users/runner/miniforge3/conda-bld/brotli-split_1695989934239/work
+certifi @ file:///home/conda/feedstock_root/build_artifacts/certifi_1718025014955/work/certifi
+cffi @ file:///Users/runner/miniforge3/conda-bld/cffi_1696001805520/work
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1698833585322/work
+h2 @ file:///home/conda/feedstock_root/build_artifacts/h2_1634280454336/work
+hpack==4.0.0
+hyperframe @ file:///home/conda/feedstock_root/build_artifacts/hyperframe_1619110129307/work
+idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1713279365350/work
+numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1687808433287/work
+opencv-python==4.10.0.84
+Pillow @ file:///Users/runner/miniforge3/conda-bld/pillow_1675487390302/work
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1711811537435/work
+PyQt5==5.15.10
+PyQt5-Qt5==5.15.14
+PyQt5_sip==12.13.0
+PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1661604839144/work
+requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1717057054362/work
+torch @ file:///Users/runner/miniforge3/conda-bld/pytorch-recipe_1654951087670/work
+torchvision @ file:///Users/runner/miniforge3/conda-bld/torchvision-split_1648575664342/work
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1717802530399/work
+urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1719391292974/work
+zstandard==0.22.0
