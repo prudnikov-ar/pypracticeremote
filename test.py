@@ -107,12 +107,12 @@ class ImageProcessingApp(QMainWindow):
             cv2.imshow("press SPACE to capture", frame)
 
             key = cv2.waitKey(1)
-            if key == 32:  # SPACE key
+            if key == 32:  # SPACE
                 self.image = frame
                 self.original_image = self.image.copy()
                 self.displayImage(self.image)
                 break
-            elif key == 27:  # Escape key
+            elif key == 27:  # Escape
                 break
 
         cap.release()
@@ -151,7 +151,7 @@ class ImageProcessingApp(QMainWindow):
             new_height = scroll_height
             new_width = int(new_height * aspect_ratio)
 
-        # Resize the image
+        # Изменить размер фото
         resized_image = cv2.resize(self.image, (new_width, new_height))
         self.image = resized_image
         self.displayImage(self.image)
@@ -228,36 +228,3 @@ if __name__ == '__main__':
     mainWindow = ImageProcessingApp()
     mainWindow.show()
     sys.exit(app.exec_())
-
-# import cv2
-
-# def blure_face(img):
-#     (h, w) = img.shape[:2]
-#     dW = int(w/3.0)
-#     dH = int(h/3.0)
-#     if dW % 2 == 0:
-#         dW -= 1
-#     if dH % 2 == 0:
-#         dH -= 1
-#     return cv2.GaussianBlur(img, (dW, dH), 0)
-
-# capture = cv2.VideoCapture(0)
-# face = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-
-# while True:
-#     ret, img = capture.read()
-
-#     faces = face.detectMultiScale(img, scaleFactor=1.5, minNeighbors=5, minSize=(20, 20))
-
-
-#     for (x, y, w, h) in faces:
-#         # cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-#         img[y:y+h, x:x+w] = blure_face(img[y:y+h, x:x+w])
-
-#     cv2.imshow("Andrew", img)
-
-#     k = cv2.waitKey(30) & 0xFF
-#     if k == 27:
-#         break
-# capture.release()
-# cv2.destroyAllWindows()
