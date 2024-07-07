@@ -1,9 +1,0 @@
-1. Загрузите этот репозиторий на свой компьютер
-2. Откройте командную строку
-3. Перейдите в папку с проектом
-4. Создайте виртуальное окружнеие с помощью команды: python -m venv myenv
-5. Затем активируйте: 
-	Windows - myenv\Scripts\activate
-	macOS и Linus - source myenv/bin/activate
-6. Установите зависимости с помощью команды pip install -r requirements.txt
-7. Запустите программу с помощью команды python test.py
